@@ -9,8 +9,13 @@
 import UIKit
 
 class LogcalcVC: UIViewController {
-    let textV = UITextView()
+    // MARK: - variables
     
+    // text views
+    let textV = UITextView()
+    let infoTextV = UITextView()
+    
+    // MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -18,17 +23,29 @@ class LogcalcVC: UIViewController {
         
         self.navigationController?.navigationBar.topItem?.title = "logcalc" // set NC title
         
-        setupTextV(textV)
+        setupTextV()
         hideKeyboard()
     }
 
-    func setupTextV(_ textV: UITextView) {
+    // MARK: - interface func
+    func setupTextV() {
         self.view.addSubview(textV)
-        let key = LogKeyboard(textView: textV)
+        self.view.addSubview(infoTextV)
+        
+        let key = LogKeyboard(textView: textV, infoTextView: infoTextV) // create keyboard
+        
+        // customise text view
         textV.inputView = key
         textV.translatesAutoresizingMaskIntoConstraints = false
         textV.font = .boldSystemFont(ofSize: 18)
         
+        // customise info text view
+        infoTextV.translatesAutoresizingMaskIntoConstraints = false
+        infoTextV.isUserInteractionEnabled = false
+        infoTextV.font = .boldSystemFont(ofSize: 18)
+        infoTextV.backgroundColor = ProjectColors().vcBackground
+        
+        // activating constraints
         NSLayoutConstraint.activate([
             textV.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
             textV.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
@@ -37,10 +54,10 @@ class LogcalcVC: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            textV.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            textV.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            textV.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-            textV.heightAnchor.constraint(equalToConstant: 100)
+            infoTextV.topAnchor.constraint(equalTo: textV.bottomAnchor, constant: 0),
+            infoTextV.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            infoTextV.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            infoTextV.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     

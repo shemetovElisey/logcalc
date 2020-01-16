@@ -9,9 +9,11 @@
 import UIKit
 
 class LogKeyboard: UIInputView {
+    //MARK: - variables
     
     //text view
     var logText = UITextView()
+    var infoText = UITextView()
     
     // stacks
     var hStackArray = [UIStackView]()
@@ -47,12 +49,12 @@ class LogKeyboard: UIInputView {
     
     
 
-    
+    // MARK: - init
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    init(textView: UITextView) {
+    init(textView: UITextView, infoTextView: UITextView) {
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 300), inputViewStyle: .keyboard)
         
         //self.backgroundColor = ProjectColors().keyboardBackground
@@ -73,8 +75,11 @@ class LogKeyboard: UIInputView {
             vStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -2)
         ])
         
-        logText = textView // add text from keyboard to text view
+        logText     = textView     // add text from keyboard to text view
+        infoText    = infoTextView // add information for user to
     }
+    
+    // MARK: - interface func
     
     func setupHStackV(forButtons buttonsArray:[CalcButton]) {
         // add targets for each button
@@ -97,8 +102,10 @@ class LogKeyboard: UIInputView {
         vStackView = vStackV
     }
     
+    //MARK: - selector
     // FIXME: - need to change the input system
     @IBAction func buttonTouched(sender: CalcButton) {
+        let selectedRange = logText.selectedTextRange
         
         switch sender.getSym() {
         case "del":
@@ -112,14 +119,12 @@ class LogKeyboard: UIInputView {
         
         case "lef":
             // left action
-            let selectedRange = logText.selectedTextRange
             let newPosition = logText.position(from: selectedRange!.start, in: .left, offset: 1)
             logText.selectedTextRange = logText.textRange(from: newPosition!, to: newPosition!)
             break
         
         case "rig":
             // right action
-            let selectedRange = logText.selectedTextRange
             let newPosition = logText.position(from: selectedRange!.start, in: .right, offset: 1)
             logText.selectedTextRange = logText.textRange(from: newPosition!, to: newPosition!)
             break
@@ -132,7 +137,69 @@ class LogKeyboard: UIInputView {
             logText.insertText(sender.getSym()) // add symbol from keyboard to string
             break
         }
+        
         UIDevice.current.playInputClick()   // click sound
         
+        // checking for mistake
+        if !checkForMistakes(expression: logText.text) {
+            infoText.text = "Wrong expression"
+        } else {
+            infoText.text = ""
+        }
     }
+}
+
+
+extension LogKeyboard {
+    //MARK: - checking for mistake
+    private func checkForMistakes(expression str: String) -> Bool {
+        var bracketCount = 0
+        var backBracketCount = 0
+        var index = 0
+        
+        for char in str {
+            index += 1
+            
+            // brakets counting
+            if char == "(" {
+                bracketCount += 1
+            } else if char == ")" {
+                backBracketCount += 1
+            }
+            
+            // check for back bracket mistake
+            if SymbolStruct().backBracket == String(char){
+                if (SymbolStruct().bracket.contains(str[index]) || SymbolStruct().variables.contains(str[index])) {
+                    return false
+                }
+            }
+            // check for bracket mistake
+            if SymbolStruct().bracket.contains(char) {
+                if (SymbolStruct().backBracket.contains(str[index]) || SymbolStruct().operations.contains(str[index])) {
+                    return false
+                }
+            }
+            
+            // check for variables mistake
+            if SymbolStruct().variables.contains(String(char)) {
+                if (SymbolStruct().bracket.contains(str[index]) || SymbolStruct().variables.contains(str[index])) {
+                    return false
+                }
+            }
+            
+            //check for operation mistake
+            if SymbolStruct().operations.contains(String(char)) {
+                if (SymbolStruct().backBracket.contains(str[index]) || SymbolStruct().operations.contains(str[index])) {
+                    return false
+                }
+            }
+        }
+        
+        if bracketCount == backBracketCount {
+            return true
+        }
+        
+        return false
+    }
+    
 }

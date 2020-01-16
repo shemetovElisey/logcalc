@@ -9,21 +9,27 @@
 import UIKit
 
 class CalcButton: UIButton {
+    //MARK: - variables
     var typeOfButton = TypeOfButton.variable
     var symbol = ""
     
+    // MARK: - init
     init(withSymbol symbol: String, andType  typeOfButton: TypeOfButton, addSymbol str: String) {
         super.init(frame: CGRect())
         
+        // creating images
         let image = UIImage(systemName: symbol, withConfiguration: UIImage.SymbolConfiguration(weight: .medium))
         let bImage = image?.withTintColor(.black, renderingMode: .alwaysOriginal)
         let gImage = image?.withTintColor(.gray, renderingMode: .alwaysOriginal)
         
+        // set the value of the button
         self.symbol = str
+        
         
         self.setImage(bImage, for: .normal)
         self.setImage(gImage, for: .highlighted)
         self.typeOfButton = typeOfButton
+        
         checkTypeOfButton()
     }
 
@@ -38,7 +44,8 @@ class CalcButton: UIButton {
         self.symbol = str
         
         self.typeOfButton = typeOfButton
-        checkTypeOfButton()
+        
+        checkTypeOfButton() // func for coloring buttons
     }
     
     init(withImage image: String, andType  typeOfButton: TypeOfButton, addSymbol str: String) {
@@ -51,6 +58,8 @@ class CalcButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - func
+    // func for coloring buttons
     private func checkTypeOfButton() {
         switch typeOfButton {
         case .variable:
@@ -71,11 +80,13 @@ class CalcButton: UIButton {
     }
     
     // FIXME: - need to change the input system
+    // input func
     public func getSym() -> String {
         return symbol
     }
 }
 
+// MARK: - Type of button enum
 enum TypeOfButton {
     case variable
     case operation
