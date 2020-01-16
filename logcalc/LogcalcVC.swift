@@ -13,7 +13,8 @@ class LogcalcVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.gray
+        
+        self.view.backgroundColor = ProjectColors().vcBackground
         
         self.navigationController?.navigationBar.topItem?.title = "logcalc" // set NC title
         
