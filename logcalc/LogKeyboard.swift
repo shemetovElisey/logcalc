@@ -145,6 +145,7 @@ class LogKeyboard: UIInputView {
             infoText.text = "Wrong expression"
         } else {
             infoText.text = ""
+            let answer = LogSolver(expression: logText.text)
         }
     }
 }

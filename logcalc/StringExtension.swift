@@ -33,5 +33,13 @@ extension String {
     let end = index(start, offsetBy: range.upperBound - range.lowerBound)
     return String(self[start ..< end])
   }
+    
+    func pad(string : String, toSize: Int) -> String {
+      var padded = string
+      for _ in 0..<(toSize - string.count) {
+        padded = "0" + padded
+      }
+        return padded
+    }
 
 }
