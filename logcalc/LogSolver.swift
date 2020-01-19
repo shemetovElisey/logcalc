@@ -10,19 +10,23 @@ import Foundation
 
 
 class LogSolver {
-    var string = String()
-    let letters = SymbolStruct().variables
-    var numberOfVariables = Int()
+    // MARK: - variables
+    var string = String()                  // logical expression
+    let letters = SymbolStruct().variables // variables
+    var numberOfVariables = Int()          // number of variables in expression
+    var logSet = [[Bool]]()                // set of "binary" numbers for logical variables
     
     
+    //MARK: - init
     init(expression: String) {
         self.string = expression
         
         numberOfVariables = varCount(forExpr: string)
-        setupLogSet(variable: numberOfVariables)
+        logSet = setupLogSet(variable: numberOfVariables)
     }
     
-    func varCount(forExpr string: String) -> Int {
+    // MARK: - func
+    private func varCount(forExpr string: String) -> Int {
         var numberOfVar = 0
         for letter in letters {
             if string.contains(Character(letter)) {
@@ -33,7 +37,7 @@ class LogSolver {
         return numberOfVar
     }
     
-    func setupLogSet(variable: Int) -> [[Bool]] {
+    private func setupLogSet(variable: Int) -> [[Bool]] {
         // that variable stores number of sets
         let numberOfElements: Int = {
             var power = 1
@@ -75,6 +79,11 @@ class LogSolver {
         }()
         
         return boolArray
+    }
+    
+    // MARK: - public func
+    public func getLogSet() -> [[Bool]] {
+        return logSet
     }
     
 }
