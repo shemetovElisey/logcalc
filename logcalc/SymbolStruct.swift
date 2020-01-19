@@ -12,5 +12,6 @@ struct SymbolStruct {
     let bracket     = "("
     let backBracket = ")"
     let variables   = ["x", "y", "z", "p"]
-    let operations  = ["-", "/", "↓", "➞", "←", "⋀", "⋁", "⨁", "⊃", "∽"]
+    let operations  = ["/", "↓", "➞", "←", "⋀", "⋁", "⨁", "⊃", "∽"]
+    let prefix      = "-"
 }

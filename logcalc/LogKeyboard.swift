@@ -170,7 +170,7 @@ extension LogKeyboard {
             
             // check for back bracket mistake
             if SymbolStruct().backBracket == String(char){
-                if (SymbolStruct().bracket.contains(str[index]) || SymbolStruct().variables.contains(str[index])) {
+                if (SymbolStruct().bracket.contains(str[index]) || SymbolStruct().variables.contains(str[index]) || SymbolStruct().prefix.contains(str[index])) {
                     return false
                 }
             }
@@ -183,13 +183,20 @@ extension LogKeyboard {
             
             // check for variables mistake
             if SymbolStruct().variables.contains(String(char)) {
-                if (SymbolStruct().bracket.contains(str[index]) || SymbolStruct().variables.contains(str[index])) {
+                if (SymbolStruct().bracket.contains(str[index]) || SymbolStruct().variables.contains(str[index]) || SymbolStruct().prefix.contains(str[index])) {
                     return false
                 }
             }
             
             //check for operation mistake
             if SymbolStruct().operations.contains(String(char)) {
+                if (SymbolStruct().backBracket.contains(str[index]) || SymbolStruct().operations.contains(str[index])) {
+                    return false
+                }
+            }
+            
+            //check for prefix mistake
+            if SymbolStruct().prefix.contains(String(char)) {
                 if (SymbolStruct().backBracket.contains(str[index]) || SymbolStruct().operations.contains(str[index])) {
                     return false
                 }
