@@ -14,7 +14,7 @@ class LogSolver {
     var string = String()                  // logical expression
     let letters = SymbolStruct().variables // variables
     var numberOfVariables = Int()          // number of variables in expression
-    var logSet = [[Bool]]()                // set of "binary" numbers for logical variables
+    var logSet = [[Bool]]()              // set of "binary" numbers for logical variables
     
     
     //MARK: - init
@@ -41,7 +41,7 @@ class LogSolver {
         // that variable stores number of sets
         let numberOfElements: Int = {
             var power = 1
-            for _ in 1...variable {
+            for _ in 0..<variable {
                 power *= 2
             }
             
@@ -59,6 +59,7 @@ class LogSolver {
             return arr
         }()
         
+        // FIXME: - fantom zero in a empty expression
         // that variable stores binary numbers in 2d bool array
         let boolArray: [[Bool]] = {
             var arr = [[Bool]]()
@@ -68,7 +69,7 @@ class LogSolver {
                 for char in str {
                     if char == "0" {
                         arr[fIndex].append(false)
-                    } else {
+                    } else if char == "1" {
                         arr[fIndex].append(true)
                     }
                 }

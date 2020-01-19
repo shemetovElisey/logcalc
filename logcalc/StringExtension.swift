@@ -35,10 +35,12 @@ extension String {
   }
     
     func pad(string : String, toSize: Int) -> String {
-      var padded = string
-      for _ in 0..<(toSize - string.count) {
-        padded = "0" + padded
-      }
+        var padded = string
+        if 0 < (toSize - string.count) {
+            for _ in 0..<(toSize - string.count) {
+                padded = "0" + padded
+            }
+        }
         return padded
     }
 
